@@ -2532,14 +2532,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
                 int deferredShadowTileSize = 16; // Must match DeferreDirectionalShadow.compute
                 int numTilesX;
-                int numTilesY;
+                int numTilesY = (hdCamera.actualHeight + (deferredShadowTileSize - 1)) / deferredShadowTileSize;
 
                 if (hdCamera.camera.stereoEnabled)
                 {
+                    numTilesX = ((hdCamera.actualWidth / 2) + (deferredShadowTileSize - 1)) / deferredShadowTileSize;
                     for (uint eye = 0; eye < 2; eye++)
                     {
-                        numTilesX = ((hdCamera.actualWidth/2) + (deferredShadowTileSize - 1)) / deferredShadowTileSize;
-                        numTilesY = (hdCamera.actualHeight + (deferredShadowTileSize - 1)) / deferredShadowTileSize;
                         cmd.SetComputeMatrixParam(screenSpaceShadowComputeShader, HDShaderIDs._Matrix_I_VP, hdCamera.GetViewProjMatrixStereo(eye).inverse);
                         cmd.SetComputeMatrixParam(screenSpaceShadowComputeShader, HDShaderIDs._Matrix_V, hdCamera.viewMatrixStereo[eye]);
                         cmd.SetComputeIntParam(screenSpaceShadowComputeShader, HDShaderIDs._Eye, (int)eye);
@@ -2549,7 +2548,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 else
                 {
                     numTilesX = (hdCamera.actualWidth + (deferredShadowTileSize - 1)) / deferredShadowTileSize;
-                    numTilesY = (hdCamera.actualHeight + (deferredShadowTileSize - 1)) / deferredShadowTileSize;
                     cmd.SetComputeMatrixParam(screenSpaceShadowComputeShader, HDShaderIDs._Matrix_I_VP, hdCamera.viewProjMatrix.inverse);
                     cmd.SetComputeMatrixParam(screenSpaceShadowComputeShader, HDShaderIDs._Matrix_V, hdCamera.viewMatrix);
                     cmd.SetComputeIntParam(screenSpaceShadowComputeShader, HDShaderIDs._Eye, 0);

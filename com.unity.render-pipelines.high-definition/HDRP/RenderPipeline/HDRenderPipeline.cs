@@ -1174,7 +1174,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                                 if (srcFrameSettings.enableStereo && (XRGraphicsConfig.eyeTextureDesc.vrUsage == VRTextureUsage.TwoEyes))
                                 {
                                     cmd.BlitFullscreenTriangle(m_CameraColorBuffer, BuiltinRenderTextureType.CameraTarget); // If double-wide, only blit once (not once per-eye)
-                                } else
+                                }
+                                else
                                 {
                                     HDUtils.BlitCameraTexture(cmd, hdCamera, m_CameraColorBuffer, BuiltinRenderTextureType.CameraTarget);
                                 }
