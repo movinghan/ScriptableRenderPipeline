@@ -1,11 +1,14 @@
 namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     /// <summary>
-    /// Start rendering that will support XR
+    /// Start rendering that supports XR.
     ///
-    /// This pass is used to enable XR rendering. This type of
-    /// XR rendering that will be used will be what is currently
-    /// configured in the global XR settings.
+    /// This pass enables XR rendering. You must also configure
+    /// the XR rendering in the global XR Graphics settings.
+    ///
+    /// Pair this pass with the EndXRRenderingPass.  If this
+    /// pass is issued without a matching EndXRRenderingPass
+    /// it will lead to undefined rendering results. 
     /// </summary>
     public class BeginXRRenderingPass : ScriptableRenderPass
     {

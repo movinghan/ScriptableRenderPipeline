@@ -5,8 +5,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// Copy the given color target to the current camera target
     ///
-    /// This pass is used to copy the result of rendering to the camera
-    /// target, it takes into consideration screen viewport.
+    /// You can use this pass to copy the result of rendering to
+    /// the camera target. The pass takes the screen viewport into
+    /// consideration.
     /// </summary>
     public class FinalBlitPass : ScriptableRenderPass
     {

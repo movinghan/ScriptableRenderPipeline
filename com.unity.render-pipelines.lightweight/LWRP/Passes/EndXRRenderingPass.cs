@@ -3,8 +3,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// End XR rendering
     ///
-    /// This pass is used to disable XR rendering. This should
-    /// be paired with a BeginXRRendering pass.
+    /// This pass disables XR rendering. Pair this pass with the BeginXRRenderingPass.
+    /// If this pass is issued without a matching BeginXRRenderingPass it will lead to
+    /// undefined rendering results. 
     /// </summary>
     public class EndXRRenderingPass : ScriptableRenderPass
     {

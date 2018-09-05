@@ -5,8 +5,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// Copy the given color buffer to the given destination color buffer.
     ///
-    /// This pass is used to copy an arbitrary color buffer to the destination for use later in
-    /// rendering. An example of this would be copying the opaque texture to use for distortion effects.
+    /// You can use this pass to copy a color buffer to the destination,
+    /// so you can use it later in rendering. For example, you can copy
+    /// the opaque texture to use it for distortion effects.
     /// </summary>
     public class CopyColorPass : ScriptableRenderPass
     {

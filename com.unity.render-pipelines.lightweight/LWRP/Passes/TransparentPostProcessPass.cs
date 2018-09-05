@@ -3,11 +3,12 @@ using UnityEngine.Rendering;
 namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     /// <summary>
-    /// Perform final frame post processing using the given color attachment as the source and
-    /// the current camera target as the destination.
+    /// Perform final frame post-processing using the given color attachment
+    /// as the source and the current camera target as the destination.
     ///
-    /// This pass is used to apply post processing to the given color buffer. The pass will use the
-    /// currently configured post process stack and copy the result the the camera target.
+    /// You can use this pass to apply post-processing to the given color
+    /// buffer. The pass uses the currently configured post-process stack,
+    /// and it copies the result to the Camera target.
     /// </summary>
     public class TransparentPostProcessPass : ScriptableRenderPass
     {

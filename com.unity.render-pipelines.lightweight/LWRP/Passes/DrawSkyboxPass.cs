@@ -5,7 +5,7 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// Draw the skybox into the given color buffer using the given depth buffer for depth testing.
     ///
-    /// This pass is used to render the standard Unity skybox. 
+    /// This pass renders the standard Unity skybox.
     /// </summary>
     public class DrawSkyboxPass : ScriptableRenderPass
     {

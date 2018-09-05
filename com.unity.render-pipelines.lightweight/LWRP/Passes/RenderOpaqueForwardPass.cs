@@ -5,8 +5,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// Render all opaque forward objects into the given color and depth target 
     ///
-    /// This pass is used to render object that have pass names 'LightweightForward' and
-    /// 'SRPDefaultUnlit' and also match the rendering queue range of opaque objects.
+    /// You can use this pass to render objects that have a material and/or shader
+    /// with the pass names LightweightForward or SRPDefaultUnlit. The pass only
+    /// renders objects in the rendering queue range of Opaque objects.
     /// </summary>
     public class RenderOpaqueForwardPass : ScriptableRenderPass
     {

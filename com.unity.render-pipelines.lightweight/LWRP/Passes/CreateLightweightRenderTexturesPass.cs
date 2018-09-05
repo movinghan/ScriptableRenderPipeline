@@ -3,12 +3,13 @@ using UnityEngine.Rendering;
 namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     /// <summary>
-    /// Generate rendering attachments that can be used for rendering. After execution a
-    /// valid depth and color handle will be created
+    /// Generate rendering attachments that can be used for rendering.
+    /// After execution a valid depth and color handle will be created
     ///
-    /// This pass is used to generate valid rendering targets that can be used for
-    /// rendering in the Lightweight Render Pipeline. An example of this is when starting to
-    /// render a frame and needing a valid color / depth buffer to render into. 
+    /// You can use this pass to generate valid rendering targets that
+    /// the Lightweight Render Pipeline can use for rendering. For example,
+    /// when you render a frame, the LWRP renders into a valid color and
+    /// depth buffer.
     /// </summary>
     public class CreateLightweightRenderTexturesPass : ScriptableRenderPass
     {

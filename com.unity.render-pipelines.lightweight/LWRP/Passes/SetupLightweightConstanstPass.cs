@@ -7,9 +7,9 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// Configure the shader constants needed by the render pipeline
     ///
-    /// This pass is used to configure constants used when rendering with LWRP.
-    /// An example use for this pass is executing this pass before rendering opaque objects
-    /// to ensure that lights and similar are configured.
+    /// This pass configures constants that LWRP uses when rendering.
+    /// For example, you can execute this pass before you render opaque
+    /// objects, to make sure that lights are configured correctly.
     /// </summary>
     public class SetupLightweightConstanstPass : ScriptableRenderPass
     {

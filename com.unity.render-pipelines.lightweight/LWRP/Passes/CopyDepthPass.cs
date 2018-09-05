@@ -5,11 +5,11 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
     /// <summary>
     /// Copy the given depth buffer into the given destination depth buffer.
     /// 
-    /// The pass is used to copy an arbitrary depth buffer to a destination
-    /// for later use in rendering. The pass will either use a custom MSAA resolve
-    /// if the source texture has MSAA or will do a Blit / Copy texture if MSAA is not used.
-    /// An example use for this pass is for copying the depth buffer for use in 'depth fade'
-    /// / 'soft particles rendering effects. 
+    /// You can use this pass to copy a depth buffer to a destination,
+    /// so you can use it later in rendering. If the source texture has MSAA
+    /// enabled, the pass uses a custom MSAA resolve. If the source texture
+    /// does not have MSAA enabled, the pass uses a Blit or a Copy Texture
+    /// operation, depending on what the current platform supports.
     /// </summary>
     public class CopyDepthPass : ScriptableRenderPass
     {
