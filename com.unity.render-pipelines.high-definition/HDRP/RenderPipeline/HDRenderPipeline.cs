@@ -1113,8 +1113,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
                         RenderForward(m_CullResults, hdCamera, renderContext, cmd, ForwardPass.Opaque, currentFrameSettings);
 
-                        m_SharedRTManager.ResolveMSAAIntoNonMSAA(cmd, hdCamera, currentFrameSettings, m_CameraSssDiffuseLightingMSAABuffer, m_CameraSssDiffuseLightingBuffer);
-                        m_SharedRTManager.ResolveMSAAIntoNonMSAA(cmd, hdCamera, currentFrameSettings, m_SSSBufferManager.GetSSSBufferMSAA(0), m_SSSBufferManager.GetSSSBuffer(0));
+                        m_SharedRTManager.ResolveMSAAColor(cmd, hdCamera, currentFrameSettings, m_CameraSssDiffuseLightingMSAABuffer, m_CameraSssDiffuseLightingBuffer);
+                        m_SharedRTManager.ResolveMSAAColor(cmd, hdCamera, currentFrameSettings, m_SSSBufferManager.GetSSSBufferMSAA(0), m_SSSBufferManager.GetSSSBuffer(0));
 
                         // SSS pass here handle both SSS material from deferred and forward
                         m_SSSBufferManager.SubsurfaceScatteringPass(hdCamera, cmd, diffusionProfileSettings, currentFrameSettings.enableMSAA ? m_CameraColorMSAABuffer : m_CameraColorBuffer,
@@ -1122,7 +1122,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
                         RenderSky(hdCamera, cmd, currentFrameSettings);
 
-                        m_SharedRTManager.ResolveMSAAIntoNonMSAA(cmd, hdCamera, currentFrameSettings, m_CameraColorMSAABuffer, m_CameraColorBuffer);
+                        m_SharedRTManager.ResolveMSAAColor(cmd, hdCamera, currentFrameSettings, m_CameraColorMSAABuffer, m_CameraColorBuffer);
 
                         RenderTransparentDepthPrepass(m_CullResults, hdCamera, renderContext, cmd);
 

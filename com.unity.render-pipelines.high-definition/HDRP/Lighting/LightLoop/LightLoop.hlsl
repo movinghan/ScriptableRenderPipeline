@@ -74,7 +74,7 @@ void LightLoop( float3 V, PositionInputs posInput, PreLightData preLightData, BS
     // First of all we compute the shadow value of the directional light to reduce the VGPR pressure
     if (featureFlags & LIGHTFEATUREFLAGS_DIRECTIONAL)
     {
-        UNITY_BRANCH if(_DirectionalLightDatas[0].shadowIndex != -1)
+        UNITY_BRANCH if(_DirectionalLightDatas[0].shadowIndex != -1 && _DirectionalLightCount > 0)
         {
             context.shadowValue = GetDirectionalShadowAttenuation(context.shadowContext, posInput.positionWS, bsdfData.normalWS, _DirectionalLightDatas[0].shadowIndex, -_DirectionalLightDatas[0].forward, posInput.positionSS);
         }

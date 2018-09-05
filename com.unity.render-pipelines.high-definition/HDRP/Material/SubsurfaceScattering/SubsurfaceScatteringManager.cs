@@ -12,7 +12,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         RTHandleSystem.RTHandle[] m_ColorMRTs = new RTHandleSystem.RTHandle[k_MaxSSSBuffer];
         RTHandleSystem.RTHandle[] m_ColorMSAAMRTs = new RTHandleSystem.RTHandle[k_MaxSSSBuffer];
-        bool[] m_ExternalBuffer = new bool[k_MaxSSSBuffer];
+        bool[] m_ReuseGBufferMemory  = new bool[k_MaxSSSBuffer];
 
         // Disney SSS Model
         ComputeShader m_SubsurfaceScatteringCS;
@@ -34,21 +34,25 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         // This is use to be able to read stencil value in compute shader
         Material m_CopyStencilForSplitLighting;
 
+        bool m_MSAASupport = false;
+
         public SubsurfaceScatteringManager()
         {
         }
 
         public void InitSSSBuffers(GBufferManager gbufferManager, RenderPipelineSettings settings)
         {
+            m_MSAASupport = settings.supportMSAA;
+
             // TODO: For MSAA, at least initially, we can only support Jimenez, because we can't create MSAA + UAV render targets.
             if (settings.supportOnlyForward)
             {
                 // In case of full forward we must allocate the render target for forward SSS (or reuse one already existing)
                 // TODO: Provide a way to reuse a render target
                 m_ColorMRTs[0] = RTHandles.Alloc(Vector2.one, filterMode: FilterMode.Point, colorFormat: RenderTextureFormat.ARGB32, sRGB: true, name: "SSSBuffer");
-                m_ExternalBuffer[0] = false;
+                m_ReuseGBufferMemory [0] = false;
 
-                if (settings.supportMSAA)
+                if (m_MSAASupport)
                 {
                     m_ColorMSAAMRTs[0] = RTHandles.Alloc(Vector2.one, filterMode: FilterMode.Point, colorFormat: RenderTextureFormat.ARGB32, enableMSAA: true, bindTextureMS: true, sRGB: true, name: "SSSBufferMSAA");
                 }
@@ -57,7 +61,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             {
                 // In case of deferred, we must be in sync with SubsurfaceScattering.hlsl and lit.hlsl files and setup the correct buffers
                 m_ColorMRTs[0] = gbufferManager.GetSubsurfaceScatteringBuffer(0); // Note: This buffer must be sRGB (which is the case with Lit.shader)
-                m_ExternalBuffer[0] = true;
+                m_ReuseGBufferMemory [0] = true;
             }
 
             if (ShaderConfig.k_UseDisneySSS == 0 || NeedTemporarySubsurfaceBuffer() || settings.supportMSAA)
@@ -118,17 +122,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
             for (int i = 0; i < k_MaxSSSBuffer; ++i)
             {
-                if (!m_ExternalBuffer[i])
+                if (!m_ReuseGBufferMemory [i])
                 {
                     RTHandles.Release(m_ColorMRTs[i]);
-                }
-            }
-
-            for (int i = 0; i < k_MaxSSSBuffer; ++i)
-            {
-                if (!m_ExternalBuffer[i])
-                {
-                    RTHandles.Release(m_ColorMSAAMRTs[i]);
+                    if (m_MSAASupport)
+                    {
+                        RTHandles.Release(m_ColorMSAAMRTs[i]);
+                    }
                 }
             }
 

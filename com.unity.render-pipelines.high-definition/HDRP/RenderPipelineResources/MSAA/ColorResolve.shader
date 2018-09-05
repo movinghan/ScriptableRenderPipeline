@@ -5,7 +5,7 @@ Shader "Hidden/HDRenderPipeline/ColorResolve"
         #pragma only_renderers d3d11 ps4 xboxone vulkan metal switch
         #include "CoreRP/ShaderLibrary/Common.hlsl"
         #include "CoreRP/ShaderLibrary/Color.hlsl"
-        #include "../ShaderVariables.hlsl"
+        #include "../../ShaderVariables.hlsl"
         #pragma enable_d3d11_debug_symbols
 
         Texture2DMS<float4> _ColorTextureMS;

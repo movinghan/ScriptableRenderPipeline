@@ -191,9 +191,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // decal
             decalNormalBuffer = Load<Shader>(HDRenderPipelinePath + "Material/Decal/DecalNormalBuffer.shader");
             // MSAA
-            depthValues = Load<Shader>(HDRenderPipelinePath + "AA/DepthValues.shader");
-            aoResolve = Load<Shader>(HDRenderPipelinePath + "AA/AOResolve.shader");
-            colorResolve = Load<Shader>(HDRenderPipelinePath + "AA/ColorResolve.shader");
+            depthValues = Load<Shader>(HDRenderPipelinePath + "RenderPipelineResources/MSAA/DepthValues.shader");
+            aoResolve = Load<Shader>(HDRenderPipelinePath + "RenderPipelineResources/MSAA/AOResolve.shader");
+            colorResolve = Load<Shader>(HDRenderPipelinePath + "RenderPipelineResources/MSAA/ColorResolve.shader");
         }
 #endif
     }

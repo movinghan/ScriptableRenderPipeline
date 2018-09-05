@@ -24,7 +24,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         Material m_ColorResolveMaterial = null;
 
         // Flags that defines if we are using a local texture or external
-        bool m_ExternalBuffer = false;
+        bool m_ReuseGBufferMemory = false;
         bool m_MSAASupported = false;
 
         // Arrays of RTIDs that are used to set render targets (when MSAA and when not MSAA)
@@ -42,7 +42,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             // Set the flags
             m_MSAASupported = settings.supportMSAA;
-            m_ExternalBuffer = !settings.supportOnlyForward;
+            m_ReuseGBufferMemory = !settings.supportOnlyForward;
 
             // Create the depth/stencil buffer
             m_CameraDepthStencilBuffer = RTHandles.Alloc(Vector2.one, depthBufferBits: DepthBits.Depth24, colorFormat: RenderTextureFormat.Depth, filterMode: FilterMode.Point, name: "CameraDepthStencil");
@@ -66,7 +66,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             }
 
             // If we are in the forward only mode 
-            if (!m_ExternalBuffer)
+            if (!m_ReuseGBufferMemory)
             {
                 // In case of full forward we must allocate the render target for normal buffer (or reuse one already existing)
                 // TODO: Provide a way to reuse a render target
@@ -171,7 +171,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         public void Cleanup()
         {
-            if (!m_ExternalBuffer)
+            if (!m_ReuseGBufferMemory)
             {
                 RTHandles.Release(m_NormalRT);
                 if (m_MSAASupported)
@@ -189,11 +189,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             {
                 RTHandles.Release(m_CameraDepthStencilMSAABuffer);
                 RTHandles.Release(m_CameraDepthValuesBuffer);
-            }
 
-            // Do not forget to release the materials
-            if (m_MSAASupported)
-            {
+                 // Do not forget to release the materials
                 CoreUtils.Destroy(m_DepthResolveMaterial);
                 CoreUtils.Destroy(m_ColorResolveMaterial);
             }
@@ -244,7 +241,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 }
             }
         }
-        public void ResolveMSAAIntoNonMSAA(CommandBuffer cmd, HDCamera hdCamera, FrameSettings frameSettings, RTHandleSystem.RTHandle msaaTarget, RTHandleSystem.RTHandle simpleTarget)
+        public void ResolveMSAAColor(CommandBuffer cmd, HDCamera hdCamera, FrameSettings frameSettings, RTHandleSystem.RTHandle msaaTarget, RTHandleSystem.RTHandle simpleTarget)
         {
             if (frameSettings.enableMSAA)
             {
