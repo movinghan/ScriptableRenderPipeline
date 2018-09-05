@@ -170,7 +170,7 @@ Material:
     - _InitialBend: 1
     - _InvTilingScale: 1
     - _Ior: 1
-    - _IridescenceMask: 1
+    - _IridescenceMask: 0.333
     - _IridescenceThickness: 1
     - _LinkDetailsWithBase: 1
     - _MaterialID: 3
