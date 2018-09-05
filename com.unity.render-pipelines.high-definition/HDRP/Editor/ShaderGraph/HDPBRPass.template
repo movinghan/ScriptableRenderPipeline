@@ -242,12 +242,9 @@ $include("SharedCode.template.hlsl")
         // compute world space normal
         GetNormalWS(fragInputs, normalTS, surfaceData.normalWS);
 
-        float3 bentNormalTS = float3(0.0f, 0.0f, 1.0f);
 #ifdef _BENT_NORMAL
-        bentNormalTS = surfaceDescription.BentNormal;
-        GetNormalWS(fragInputs, bentNormalTS, bentNormalWS);
+        GetNormalWS(fragInputs, surfaceDescription.BentNormal, bentNormalWS);
 #else
-        bentNormalTS = normalTS;
         bentNormalWS = surfaceData.normalWS;
 #endif
 
@@ -304,21 +301,21 @@ $include("SharedCode.template.hlsl")
 
         // Builtin Data
         // For back lighting we use the oposite vertex normal 
-        InitBuiltinData(surfaceDescription.Alpha, surfaceData.normalWS, -fragInputs.worldToTangent[2], fragInputs.positionRWS, fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
+        InitBuiltinData(surfaceDescription.Alpha, bentNormalWS, -fragInputs.worldToTangent[2], fragInputs.positionRWS, fragInputs.texCoord1, fragInputs.texCoord2, builtinData);
 
 #ifdef _EMISSION
         builtinData.emissiveColor = surfaceDescription.Emission;
         $AlbedoAffectsEmissive: builtinData.emissiveColor *= surfaceDescription.Albedo;
 #endif
 
-        builtinData.distortion =                float2(0.0, 0.0);           // surfaceDescription.Distortion -- if distortion pass
-        builtinData.distortionBlur =            0.0;                        // surfaceDescription.DistortionBlur -- if distortion pass
-
-        builtinData.depthOffset =               0.0;                        // ApplyPerPixelDisplacement(input, V, layerTexCoord, blendMasks); #ifdef _DEPTHOFFSET_ON : ApplyDepthOffsetPositionInput(V, depthOffset, GetWorldToHClipMatrix(), posInput);
+        builtinData.depthOffset = 0.0;                        // ApplyPerPixelDisplacement(input, V, layerTexCoord, blendMasks); #ifdef _DEPTHOFFSET_ON : ApplyDepthOffsetPositionInput(V, depthOffset, GetWorldToHClipMatrix(), posInput);
 
 #if (SHADERPASS == SHADERPASS_DISTORTION)
-    builtinData.distortion = float2(surfaceDescription.DistortionX, surfaceDescription.DistortionY);
-    builtinData.distortionBlur = surfaceDescription.DistortionBlur;
+        builtinData.distortion = surfaceDescription.Distortion;
+        builtinData.distortionBlur = surfaceDescription.DistortionBlur;
+#else
+        builtinData.distortion = float2(0.0, 0.0);
+        builtinData.distortionBlur = 0.0;
 #endif
 
         PostInitBuiltinData(V, posInput, surfaceData, builtinData);

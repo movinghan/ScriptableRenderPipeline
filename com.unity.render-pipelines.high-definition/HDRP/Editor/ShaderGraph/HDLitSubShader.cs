@@ -260,8 +260,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             {
                 LitMasterNode.AlphaSlotId,
                 LitMasterNode.AlphaThresholdSlotId,
-                LitMasterNode.DistortionXSlotId,
-                LitMasterNode.DistortionYSlotId,
+                LitMasterNode.DistortionSlotId,
                 LitMasterNode.DistortionBlurSlotId,
             },
             VertexShaderSlots = new List<int>()
@@ -539,7 +538,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
 
             switch (masterNode.materialType)
             {
-                case LitMasterNode.MaterialType.Anisoptropy:
+                case LitMasterNode.MaterialType.Anisotropy:
                     activeFields.Add("Material.Anisotropy");
                     break;
                 case LitMasterNode.MaterialType.Iridescence:

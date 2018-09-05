@@ -40,8 +40,7 @@ namespace UnityEditor.ShaderGraph
         public const string RefractionIndexSlotName = "RefractionIndex";
         public const string RefractionColorSlotName = "RefractionColor";
         public const string RefractionDistanceSlotName = "RefractionDistance";
-        public const string DistortionXSlotName = "DistortionX";
-        public const string DistortionYSlotName = "DistortionY";
+        public const string DistortionSlotName = "Distortion";
         public const string DistortionBlurSlotName = "DistortionBlur";
 
         public const int PositionSlotId = 0;
@@ -70,15 +69,14 @@ namespace UnityEditor.ShaderGraph
         public const int RefractionIndexSlotId = 23;
         public const int RefractionColorSlotId = 24;
         public const int RefractionDistanceSlotId = 25;
-        public const int DistortionXSlotId = 26;
-        public const int DistortionYSlotId = 27;
-        public const int DistortionBlurSlotId = 28;
+        public const int DistortionSlotId = 26;
+        public const int DistortionBlurSlotId = 27;
 
         public enum MaterialType
         {
             Standard,
             SubsurfaceScattering,
-            Anisoptropy,
+            Anisotropy,
             Iridescence,
             SpecularColor,
             Translucent
@@ -130,7 +128,7 @@ namespace UnityEditor.ShaderGraph
                 case MaterialType.SubsurfaceScattering:
                     return SubsurfaceScatteringSlotMask;
 
-                case MaterialType.Anisoptropy:
+                case MaterialType.Anisotropy:
                     return AnisotropySlotMask;
 
                 case MaterialType.Iridescence:
@@ -187,7 +185,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         [SerializeField]
-        bool m_BlendPreserveSpecular;
+        bool m_BlendPreserveSpecular = true;
 
         public ToggleData blendPreserveSpecular
         {
@@ -202,7 +200,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         [SerializeField]
-        bool m_TransparencyFog;
+        bool m_TransparencyFog = true;
 
         public ToggleData transparencyFog
         {
@@ -300,7 +298,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         [SerializeField]
-        bool m_DistortionDepthTest;
+        bool m_DistortionDepthTest = true;
 
         public ToggleData distortionDepthTest
         {
@@ -426,7 +424,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         [SerializeField]
-        bool m_SSSTransmission;
+        bool m_SSSTransmission = true;
 
         public ToggleData sssTransmission
         {
@@ -440,7 +438,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         [SerializeField]
-        bool m_ReceiveDecals;
+        bool m_ReceiveDecals = true;
 
         public ToggleData receiveDecals
         {
@@ -455,7 +453,7 @@ namespace UnityEditor.ShaderGraph
         }
 
         [SerializeField]
-        bool m_EnergyConservingSpecular;
+        bool m_EnergyConservingSpecular = true;
 
         public ToggleData energyConservingSpecular
         {
@@ -729,13 +727,10 @@ namespace UnityEditor.ShaderGraph
             }
             if (HasDistortion())
             {
-                AddSlot(new Vector1MaterialSlot(DistortionXSlotId, DistortionXSlotName, DistortionXSlotName, SlotType.Input, 0.0f, ShaderStageCapability.Fragment));
-                validSlots.Add(DistortionXSlotId);
+                AddSlot(new Vector2MaterialSlot(DistortionSlotId, DistortionSlotName, DistortionSlotName, SlotType.Input, new Vector2(2.0f, -1.0f), ShaderStageCapability.Fragment));
+                validSlots.Add(DistortionSlotId);
 
-                AddSlot(new Vector1MaterialSlot(DistortionYSlotId, DistortionYSlotName, DistortionYSlotName, SlotType.Input, 0.0f, ShaderStageCapability.Fragment));
-                validSlots.Add(DistortionYSlotId);
-
-                AddSlot(new Vector1MaterialSlot(DistortionBlurSlotId, DistortionBlurSlotName, DistortionBlurSlotName, SlotType.Input, 0.0f, ShaderStageCapability.Fragment));
+                AddSlot(new Vector1MaterialSlot(DistortionBlurSlotId, DistortionBlurSlotName, DistortionBlurSlotName, SlotType.Input, 1.0f, ShaderStageCapability.Fragment));
                 validSlots.Add(DistortionBlurSlotId);
             }
 
