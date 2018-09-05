@@ -4,7 +4,6 @@ namespace UnityEngine.Experimental.Rendering.LightweightPipeline
 {
     /// <summary>
     /// Generate rendering attachments that can be used for rendering.
-    /// After execution a valid depth and color handle will be created
     ///
     /// You can use this pass to generate valid rendering targets that
     /// the Lightweight Render Pipeline can use for rendering. For example,
