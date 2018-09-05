@@ -6,8 +6,8 @@ public abstract class TestSceneController : MonoBehaviour {
 
     public GameObject[] shGraphObjs;
     public GameObject[] builtInObjs;
-    protected Vector3[] startingLocPosSG;
-    protected Vector3[] startingLocPosBI;
+    private Vector3[] startingLocPosSG;
+    private Vector3[] startingLocPosBI;
 
     protected GameObject currentObj = null;
 
@@ -47,14 +47,38 @@ public abstract class TestSceneController : MonoBehaviour {
         {
             Debug.LogError("The # of test cases must be even.");
         }
-        maxMode = shGraphObjs.Length;
 
-        for (int x = 0; x < maxMode; x++)
+        // Count the number of okay objects
+        maxMode = 0;
+        for (int x = 0; x < shGraphObjs.Length; x++)
         {
-            if (shGraphObjs[x] == null) Debug.LogError("shGraphObjs["+x+"] is null");
-            if (builtInObjs[x] == null) Debug.LogError("builtInObjs["+x+"] is null");
+            // if (shGraphObjs[x] == null) Debug.LogError("shGraphObjs["+x+"] is null");
+            // if (builtInObjs[x] == null) Debug.LogError("builtInObjs["+x+"] is null");
+            if ((shGraphObjs[x] != null) && (builtInObjs[x] != null))
+            {
+                maxMode++;
+            }
         }
 
+        // Debug.Log("maxMode="+maxMode);
+
+        // Store the ending location
+        GameObject[] oldSG = shGraphObjs;
+        GameObject[] oldBI = builtInObjs;
+        shGraphObjs = new GameObject[maxMode];
+        builtInObjs = new GameObject[maxMode];
+        int i = 0;
+        for (int x = 0; x < oldSG.Length; x++)
+        {
+            if ((oldSG[x] != null) && (oldBI[x] != null))
+            {
+                shGraphObjs[i] = oldSG[x];
+                builtInObjs[i] = oldBI[x];
+                i++;
+            }
+        }
+
+        // Store the starting location
         startingLocPosSG = new Vector3[maxMode];
         startingLocPosBI = new Vector3[maxMode];
         for (int x = 0; x < maxMode; x++)
