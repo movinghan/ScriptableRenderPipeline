@@ -40,9 +40,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         public bool enableDistortion = true;
         public bool enablePostprocess = true;
 
-        public bool enableStereo = false;
-        public XRGraphicsConfig xrGraphicsConfig;
-
+        public bool enableStereo = true;
         public bool enableAsyncCompute = true;
 
         public bool enableOpaqueObjects = true;
@@ -82,7 +80,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             frameSettings.enablePostprocess = this.enablePostprocess;
 
             frameSettings.enableStereo = this.enableStereo;
-            frameSettings.xrGraphicsConfig = this.xrGraphicsConfig;
 
             frameSettings.enableOpaqueObjects = this.enableOpaqueObjects;
             frameSettings.enableTransparentObjects = this.enableTransparentObjects;
@@ -150,8 +147,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             aggregate.enablePostprocess = camera.cameraType != CameraType.Reflection && srcFrameSettings.enablePostprocess;
 
             aggregate.enableStereo = ((camera.cameraType == CameraType.Game) || (camera.cameraType == CameraType.VR)) && srcFrameSettings.enableStereo && XRGraphicsConfig.enabled && (camera.stereoTargetEye == StereoTargetEyeMask.Both);
-
-            aggregate.xrGraphicsConfig = renderPipelineSettings.xrConfig;
 
             aggregate.enableAsyncCompute = srcFrameSettings.enableAsyncCompute && SystemInfo.supportsAsyncCompute;
 

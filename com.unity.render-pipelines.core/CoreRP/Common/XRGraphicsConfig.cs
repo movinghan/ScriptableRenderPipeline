@@ -19,6 +19,8 @@ namespace UnityEngine.Experimental.Rendering
         public float viewportScale;
         public bool useOcclusionMesh;
         public float occlusionMaskScale;
+        public bool showDeviceView;
+        public GameViewRenderMode gameViewRenderMode;
         
         public void SetConfig()
         { // If XR is enabled, sets XRSettings from our saved config
@@ -29,6 +31,8 @@ namespace UnityEngine.Experimental.Rendering
             XRSettings.renderViewportScale = viewportScale;
             XRSettings.useOcclusionMesh = useOcclusionMesh;
             XRSettings.occlusionMaskScale = occlusionMaskScale;
+            XRSettings.showDeviceView = showDeviceView;
+            XRSettings.gameViewRenderMode = gameViewRenderMode;
         }
         public void SetViewportScale(float viewportScale)
         { // Only sets viewport- since this is probably the only thing getting updated every frame
@@ -37,13 +41,15 @@ namespace UnityEngine.Experimental.Rendering
             Assert.IsTrue(enabled);
             XRSettings.renderViewportScale = viewportScale;
         }
-        
+
         public static readonly XRGraphicsConfig s_DefaultXRConfig = new XRGraphicsConfig
         {
             renderScale = 1.0f,
             viewportScale = 1.0f,
             useOcclusionMesh = true,
             occlusionMaskScale = 1.0f,
+            showDeviceView = true,
+            gameViewRenderMode = GameViewRenderMode.BothEyes
         };
 
         public static XRGraphicsConfig GetActualXRSettings()
@@ -60,6 +66,8 @@ namespace UnityEngine.Experimental.Rendering
             getXRSettings.viewportScale = XRSettings.renderViewportScale;
             getXRSettings.useOcclusionMesh = XRSettings.useOcclusionMesh;
             getXRSettings.occlusionMaskScale = XRSettings.occlusionMaskScale;
+            getXRSettings.showDeviceView = XRSettings.showDeviceView;
+            getXRSettings.gameViewRenderMode = XRSettings.gameViewRenderMode;            
             return getXRSettings;
         }
 
