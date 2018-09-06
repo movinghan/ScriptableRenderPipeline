@@ -963,7 +963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Version: 1
-  shadowResolution: 4096
+  shadowResolution: 2048
   shadowDimmer: 1
   shadowFadeDistance: 10000
   contactShadows: 0
